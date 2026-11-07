@@ -56,6 +56,9 @@ Node *partition(Node *head, int x)
     Node *curr = head;
     while (curr)
     {
+        Node *next = curr->next;
+        curr->next = nullptr;
+
         if (curr->data < x)
         {
             if (!head1)
@@ -64,10 +67,35 @@ Node *partition(Node *head, int x)
             }
             else
             {
-                head1->next = curr;
+                tail1->next = curr;
             }
-
             tail1 = curr;
         }
+        else
+        {
+            if (!head2)
+            {
+                head2 = curr;
+            }
+            else
+            {
+                tail2->next = curr;
+            }
+            tail2 = curr;
+        }
+        curr = next;
     }
+
+    if (!head1)
+    {
+        return head2;
+    }
+
+    if (!head2)
+    {
+        return head1;
+    }
+
+    tail1->next = head2;
+    return head1;
 }
